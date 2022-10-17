@@ -5,5 +5,5 @@ gösteren bir proje
 proje üyerleri
 Mehmet Fatih Sarcan 190542020
 İdris Aktaş
-Çağrı
+Çağrı Yücel 220541112
 Arslan Küçükkafa
