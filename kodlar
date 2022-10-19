@@ -1,0 +1,39 @@
+
+!!!BURADA VERİLERİ ÇEKİ TABLOMUZA EKLİYORUZ!!! 
+
+from cgi import print_directory
+
+import requests
+import mysql.connector
+from bs4 import BeautifulSoup
+db=mysql.connector.connect(
+   host="localhost",
+   user="root",
+   password="sql123456",
+   database ="kisiselenflasyon"
+
+)
+veri=db.cursor()
+veri.execute("SELECT * FROM kisiselenflasyon.urunlistesi")
+print(veri)
+for i in veri:
+   print(i) 
+r=requests.get("https://www.a101.com.tr/aldin-aldin/?sorter=-price&category_ids=2")
+r.content
+soup = BeautifulSoup(r.content,"html.parser")
+urunIsimleri=soup.find_all("hgroup")
+urunIsimleritaplo=list()
+urunfiyatlariTablo=list()
+for i in urunIsimleri:
+     urunIsimleritaplo.append(i.text.replace("\n","").strip())
+urunfiyarlari = soup.find_all("section",{"class":"prices"}) 
+for i in urunfiyarlari:
+      urunfiyatlariTablo.append(float((i.text.replace("\n","").replace("₺","").replace(",",".").strip())))
+i=0
+j=0
+while(i<len(urunIsimleritaplo) ):
+     degis=urunIsimleritaplo[i]
+     degis2=urunfiyatlariTablo[i]
+     sonuc = veri.execute(' INTO UrunListesi VALUES(%s,%s,%s)',(i,degis,degis2))
+     db.commit()
+     i=i+1
