@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 db=mysql.connector.connect(
    host="localhost",
    user="root",
-   password="sql123456",
+   password="s******",
    database ="kisiselenflasyon"
 
 )
